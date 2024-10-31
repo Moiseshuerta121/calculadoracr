@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Costos de Construcción</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Costos de Construcción</h1>
+
+        <!-- Caja de selección del tipo de operación -->
+        <div class="operation-selector">
+            <label for="operacion">Elige el tipo de operación:</label>
+            <select id="operacion" onchange="mostrarPrecio(); limpiar()">
+                <option value="excavacion">Excavación</option>
+                <option value="cimiento">Cimiento</option>
+                <option value="plantillas">Plantillas</option>
+                <option value="trazo">Trazo y Nivelación</option>
+                <option value="limpieza">Limpieza</option>
+                <option value="cadena">Cadena</option>
+                <option value="cadenaCerramiento">Cadena Cerramiento</option>
+                <option value="castillos4">Castillos 4 Varillas</option>
+                <option value="castillos6">Castillos 6 Varillas</option>
+                <option value="losa">Losa</option>
+                <option value="columnas">Columnas</option>
+                <option value="firmes">Firmes</option>
+                <option value="pisoMalla">Piso con Malla</option>
+                <option value="acabado">Acabado Estampado</option>
+                <option value="colocacionAzulejo">Colocación Azulejo</option>
+                <option value="colocacionPiso">Colocación Piso</option>
+                <option value="muroTabique">Muro Tabique</option>
+                <option value="muroBlock">Muro Block</option>
+                <option value="boquillas">Boquillas</option>
+                <option value="repoco">Repoco</option>
+                <option value="pulidoMuros">Pulido Muros</option>
+                <option value="pulidoPlafon">Pulido Plafón</option>
+                <option value="registro">Registro</option>
+                <option value="tuberiaPvc">Tubería PVC</option>
+                <option value="pintura">Pintura</option>
+            </select>
+        </div>
+
+        <!-- Caja de texto para mostrar el valor escrito -->
+        <div class="input-display">
+            <input type="text" id="display" readonly>
+        </div>
+
+        <!-- Mostrar el precio del elemento seleccionado -->
+        <div class="price-display">
+            <p>Precio por unidad: <span id="precio"></span></p>
+        </div>
+
+        <!-- Botones numéricos del 0 al 9 -->
+        <div class="keypad">
+            <button onclick="escribir(1)">1</button>
+            <button onclick="escribir(2)">2</button>
+            <button onclick="escribir(3)">3</button>
+            <button onclick="escribir(4)">4</button>
+            <button onclick="escribir(5)">5</button>
+            <button onclick="escribir(6)">6</button>
+            <button onclick="escribir(7)">7</button>
+            <button onclick="escribir(8)">8</button>
+            <button onclick="escribir(9)">9</button>
+            <button onclick="escribir(0)">0</button>
+            <button onclick="borrar()">Borrar</button>
+        </div>
+
+        <!-- Botón para calcular -->
+        <button class="calculate-btn" onclick="calcular()">Calcular</button>
+
+        <!-- Resultado del cálculo -->
+        <h2 id="resultado"></h2>
+    </div>
+
+    <script>
+        // Precios de la lista proporcionada
+        const precios = {
+            excavacion: 135,
+            cimiento: 550,
+            plantillas: 115,
+            trazo: 11,
+            limpieza: 12,
+            cadena: 150,
+            cadenaCerramiento: 170,
+            castillos4: 150,
+            castillos6: 170,
+            losa: 480,
+            columnas: 590,
+            firmes: 170,
+            pisoMalla: 190,
+            acabado: 120,
+            colocacionAzulejo: 150,
+            colocacionPiso: 170,
+            muroTabique: 140,
+            muroBlock: 140,
+            boquillas: 95,
+            repoco: 140,
+            pulidoMuros: 130,
+            pulidoPlafon: 130,
+            registro: 1600,
+            tuberiaPvc: 140,
+            pintura: 46
+        };
+
+        // Función para escribir en la caja de texto
+        function escribir(numero) {
+            document.getElementById('display').value += numero;
+        }
+
+        // Función para borrar el contenido de la caja de texto
+        function borrar() {
+            document.getElementById('display').value = '';
+        }
+
+        // Función para limpiar el resultado y la caja de texto al cambiar la operación
+        function limpiar() {
+            document.getElementById('display').value = '';
+            document.getElementById('resultado').textContent = '';
+        }
+
+        // Función para mostrar el precio del tipo de operación seleccionado
+        function mostrarPrecio() {
+            const tipoOperacion = document.getElementById('operacion').value;
+            const precio = precios[tipoOperacion];
+            document.getElementById('precio').textContent = `$${precio.toFixed(2)}`;
+        }
+
+        // Función para calcular el costo
+        function calcular() {
+            const tipoOperacion = document.getElementById('operacion').value;
+            const cantidad = parseFloat(document.getElementById('display').value) || 0;
+            const precio = precios[tipoOperacion];
+            const total = cantidad * precio;
+
+            document.getElementById('resultado').textContent = `El total de ${tipoOperacion.replace(/([A-Z])/g, ' $1')} es $${total.toFixed(2)}`;
+        }
+
+        // Mostrar el precio inicial cuando se carga la página
+        window.onload = mostrarPrecio;
+    </script>
+</body>
+</html>
